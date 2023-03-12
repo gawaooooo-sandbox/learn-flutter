@@ -46,6 +46,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -60,21 +62,33 @@ class _HomePageState extends State<HomePage> {
             // the App.build method, and use it to set our appbar title.
             title: const Text("Translate App")),
         // 子Widgetを垂直に配置するWidget
-        body: Column(
-          // 子Widgetを中央へ寄せるためのパラメータ
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // 余白を与えて子要素を配置するWidget
-            const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                // ユーザーが入力可能なテキストフィールド
-                child: TextField(
-                  maxLength: 5,
-                  decoration: InputDecoration(hintText: '文章を入力してください'),
-                )),
-            const SizedBox(height: 20),
-            ElevatedButton(onPressed: () {}, child: const Text('変換'))
-          ],
-        ));
+        body: Form(
+            key: _formKey,
+            child: Column(
+              // 子Widgetを中央へ寄せるためのパラメータ
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // 余白を与えて子要素を配置するWidget
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: TextFormField(
+                        maxLength: 5,
+                        decoration:
+                            const InputDecoration(hintText: '文章を入力してください'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return '文章が入力されていません';
+                          }
+                          return null;
+                        })),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                    onPressed: () {
+                      final formState = _formKey.currentState!;
+                      formState.validate();
+                    },
+                    child: const Text('変換'))
+              ],
+            )));
   }
 }
