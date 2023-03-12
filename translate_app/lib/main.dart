@@ -48,14 +48,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _formKey = GlobalKey<FormState>();
 
+  // TextEditingController TextField Widgetの入力文字や選択文字を取得、変更する機能を持つ
+  final _textEditController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
         appBar: AppBar(
             // Here we take the value from the MyHomePage object that was created by
@@ -72,6 +69,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: TextFormField(
+                        controller: _textEditController,
                         maxLength: 5,
                         decoration:
                             const InputDecoration(hintText: '文章を入力してください'),
@@ -85,10 +83,20 @@ class _HomePageState extends State<HomePage> {
                 ElevatedButton(
                     onPressed: () {
                       final formState = _formKey.currentState!;
-                      formState.validate();
+                      if (!formState.validate()) {
+                        return;
+                      }
+
+                      debugPrint('text = ${_textEditController.text}');
                     },
                     child: const Text('変換'))
               ],
             )));
+  }
+
+  @override
+  void dispose() {
+    _textEditController.dispose();
+    super.dispose();
   }
 }
