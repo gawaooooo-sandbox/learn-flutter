@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -50,6 +52,22 @@ class _HomePageState extends State<HomePage> {
 
   // TextEditingController TextField Widgetの入力文字や選択文字を取得、変更する機能を持つ
   final _textEditController = TextEditingController();
+
+
+  Future<void> _translate(String sentence) async {
+    final url = Uri.parse('https://labs.goo.ne.jp/api/hiragana');
+    final headers = {'Content-Type': 'application/json'};
+    final body = json.encode({
+      'app_id': '<token>',
+      'sentence': sentence,
+      'output_type': 'hiragana'
+    });
+    final response = await http.post(url, headers: headers, body: body);
+    final responseJson = json.decode(response.body) as Map<String, dynamic>;
+    debugPrint(responseJson['converted']);
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
