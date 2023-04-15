@@ -32,13 +32,18 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 仮のデータ（スタブ）を用意する
+    final todos = List.generate(10, (index) => 'Todo ${index + 1}');
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: const Center(
-        child: Text('ホーム'),
-      ),
-    );
+        appBar: AppBar(
+          title: Text(title),
+        ),
+        body: ListView.builder(
+          itemBuilder: (context, index) => ListTile(
+            title: Text(todos[index]),
+          ),
+          itemCount: todos.length,
+        ));
   }
 }
