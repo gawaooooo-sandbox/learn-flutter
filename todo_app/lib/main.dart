@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -31,19 +31,33 @@ class MyHomePage extends StatelessWidget {
   final String title;
 
   @override
-  Widget build(BuildContext context) {
-    // 仮のデータ（スタブ）を用意する
-    final todos = List.generate(10, (index) => 'Todo ${index + 1}');
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
+class _MyHomePageState extends State<MyHomePage> {
+  // 仮のデータ（スタブ）を用意する
+  final todos = List.generate(10, (index) => 'Todo ${index + 1}');
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: ListView.builder(
+        itemBuilder: (context, index) => ListTile(
+          title: Text(todos[index]),
         ),
-        body: ListView.builder(
-          itemBuilder: (context, index) => ListTile(
-            title: Text(todos[index]),
-          ),
-          itemCount: todos.length,
-        ));
+        itemCount: todos.length,
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          setState(() {
+            todos.add('ToDo ${todos.length + 1}');
+          });
+        },
+      ),
+    );
   }
 }
