@@ -1,0 +1,11 @@
+flutter_native_splash:
+  color: '#add8e6'
+  image: 'assets/chiba_splash.png'
+  color_dark: '#262626'
+  image_dark: 'assets/chiba_splash.png'
+  fullscreen: true
+  android_12:
+    icon_background_color: '#add8e6'
+    image: 'assets/chiba_splash.png'
+    icon_background_color_dark: '#262626'
+    image_dark: 'assets/chiba_splash.png'
